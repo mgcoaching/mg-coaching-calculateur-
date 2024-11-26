@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MG Coaching - Calculateur de Calories</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .calculator {
+            max-width: 600px;
+            width: 100%;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ff4c4c;
+        }
+        .calculator h2 {
+            text-align: center;
+            color: #ff4c4c;
+            margin-bottom: 20px;
+        }
+        .calculator label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .calculator input, .calculator select, .calculator button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ff4c4c;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #333;
+        }
+        .calculator button {
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .calculator button:hover {
+            background-color: #e84343;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid #ff4c4c;
+            border-radius: 8px;
+            display: none;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <h2>MG Coaching - Calculateur de Calories</h2>
+            <label for="weight">Poids (kg) :</label>
+            <input type="number" id="weight" placeholder="Entrez votre poids">
+
+            <label for="height">Taille (cm) :</label>
+            <input type="number" id="height" placeholder="Entrez votre taille">
+
+            <label for="age">Âge (ans) :</label>
+            <input type="number" id="age" placeholder="Entrez votre âge">
+
+            <label for="activity">Niveau d'activité physique :</label>
+            <select id="activity">
+                <option value="1.2">Sédentaire</option>
+                <option value="1.375">Légèrement actif</option>
+                <option value="1.55">Modérément actif</option>
+                <option value="1.725">Très actif</option>
+                <option value="1.9">Extrêmement actif</option>
+            </select>
+
+            <label for="goal">Objectif :</label>
+            <select id="goal">
+                <option value="0">Maintenir le poids</option>
+                <option value="-500">Perdre du poids</option>
+                <option value="500">Prendre du poids</option>
+            </select>
+
+            <button onclick="calculateCalories()">Calculer</button>
+
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+    <div class="footer">
+        © 2024 MG Coaching - Votre partenaire fitness et nutrition
+    </div>
+
+    <script>
+        function calculateCalories() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseInt(document.getElementById('age').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            const goal = parseFloat(document.getElementById('goal').value);
+
+            if (isNaN(weight) || isNaN(height) || isNaN(age)) {
+                alert("Veuillez remplir tous les champs correctement.");
+                return;
+            }
+
+            // Taux Métabolique de Base (Formule Mifflin-St Jeor)
+            let bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+
+            // Dépense Énergétique Totale Quotidienne
+            const tdee = bmr * activity;
+
+            // Ajustement pour l'objectif
+            const calorieGoal = tdee + goal;
+
+            // Afficher le résultat
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>Résultats</h3>
+                <p>Votre besoin calorique quotidien est d'environ <strong>${Math.round(calorieGoal)}</strong> calories.</p>
+                <p>En fonction de votre niveau d'activité et de votre objectif, voici l'apport recommandé pour atteindre vos buts.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
